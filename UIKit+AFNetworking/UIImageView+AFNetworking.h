@@ -44,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  The image cache used to improve image loading performance on scroll views. By default, this is an `NSCache` subclass conforming to the `AFImageCache` protocol, which listens for notification warnings and evicts objects accordingly.
 */
 + (id <AFImageCache>)sharedImageCache;
+- (void)clearImageCacheForURL:(NSURL *)url;
 
 /**
  Set the cache used for image loading.
@@ -139,6 +140,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)cacheImage:(UIImage *)image
         forRequest:(NSURLRequest *)request;
+
+- (void)clearCachedRequest:(NSURLRequest *)request;
+
 @end
 
 NS_ASSUME_NONNULL_END

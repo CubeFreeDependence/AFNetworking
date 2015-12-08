@@ -175,6 +175,16 @@
     }
 }
 
+- (void)clearImageCacheForURL:(NSURL *)url {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
+    
+    UIImage *cachedImage = [[[self class] sharedImageCache] cachedImageForRequest:request];
+    if (cachedImage) {
+        [[[self class] sharedImageCache] clearCachedRequest:request];
+    }
+}
+
 - (void)cancelImageRequestOperation {
     [self.af_imageRequestOperation cancel];
     self.af_imageRequestOperation = nil;
@@ -207,6 +217,12 @@ static inline NSString * AFImageCacheKeyFromURLRequest(NSURLRequest *request) {
 {
     if (image && request) {
         [self setObject:image forKey:AFImageCacheKeyFromURLRequest(request)];
+    }
+}
+
+- (void)clearCachedRequest:(NSURLRequest *)request {
+    if (request) {
+        [self removeObjectForKey:AFImageCacheKeyFromURLRequest(request)];
     }
 }
 
